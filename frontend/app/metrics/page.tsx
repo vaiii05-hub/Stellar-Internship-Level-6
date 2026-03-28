@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useState } from "react";
-import Link from "next/link";
 
 export default function MetricsPage() {
   const [transactions, setTransactions] = useState<any[]>([]);
@@ -12,7 +11,9 @@ export default function MetricsPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch(`${HORIZON}/transactions?limit=50&order=desc`);
+        const res = await fetch(
+          `${HORIZON}/contracts/${CONTRACT}/transactions?limit=50&order=desc`
+        );
         const data = await res.json();
         setTransactions(data._embedded?.records || []);
       } catch (e) {
@@ -33,7 +34,9 @@ export default function MetricsPage() {
           <h1 className="text-4xl font-bold bg-gradient-to-r from-pink-400 to-orange-400 bg-clip-text text-transparent">
             📊 GiftDrop Metrics
           </h1>
-          <p className="text-gray-400 mt-2">Real-time data from Stellar Testnet · Soroban Smart Contract</p>
+          <p className="text-gray-400 mt-2">
+            Real-time data from Stellar Testnet · Soroban Smart Contract
+          </p>
         </div>
 
         {/* Stats Cards */}
@@ -48,9 +51,11 @@ export default function MetricsPage() {
           </div>
           <div className="bg-gray-900 border border-purple-500/30 rounded-2xl p-6">
             <p className="text-gray-400 text-sm mb-1">Contract</p>
-            <p className="text-xs font-mono text-purple-400 break-all">{CONTRACT.slice(0, 20)}...{CONTRACT.slice(-6)}</p>
+            <p className="text-xs font-mono text-purple-400 break-all">
+              {CONTRACT.slice(0, 20)}...{CONTRACT.slice(-6)}
+            </p>
             
-              <a href={`https://stellar.expert/explorer/testnet/contract/${CONTRACT}`}
+             <a href={`https://stellar.expert/explorer/testnet/contract/${CONTRACT}`}
               target="_blank"
               className="text-xs text-gray-500 hover:text-pink-400 mt-1 block"
             >
@@ -62,11 +67,22 @@ export default function MetricsPage() {
         {/* Transactions Table */}
         <div className="bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden">
           <div className="px-6 py-4 border-b border-gray-800">
-            <h2 className="text-lg font-semibold text-white">Recent Transactions</h2>
+            <h2 className="text-lg font-semibold text-white">
+              GiftDrop Contract Transactions
+            </h2>
           </div>
 
           {loading ? (
-            <div className="p-10 text-center text-gray-400">Loading transactions...</div>
+            <div className="p-10 text-center text-gray-400">
+              Loading transactions...
+            </div>
+          ) : transactions.length === 0 ? (
+            <div className="p-10 text-center">
+              <p className="text-gray-400 text-lg">No transactions yet</p>
+              <p className="text-gray-600 text-sm mt-2">
+                Transactions will appear here when users interact with GiftDrop
+              </p>
+            </div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full">
@@ -80,7 +96,10 @@ export default function MetricsPage() {
                 </thead>
                 <tbody>
                   {transactions.map((tx: any, i: number) => (
-                    <tr key={tx.hash} className={`border-t border-gray-800 hover:bg-gray-800/50 transition-colors ${i % 2 === 0 ? "" : "bg-gray-900/50"}`}>
+                    <tr
+                      key={tx.hash}
+                      className={`border-t border-gray-800 hover:bg-gray-800/50 transition-colors ${i % 2 === 0 ? "" : "bg-gray-900/50"}`}
+                    >
                       <td className="px-6 py-4 font-mono text-sm text-pink-400">
                         {tx.hash.slice(0, 16)}...{tx.hash.slice(-8)}
                       </td>
@@ -96,7 +115,7 @@ export default function MetricsPage() {
                       </td>
                       <td className="px-6 py-4">
                         
-                         <a href={`https://stellar.expert/explorer/testnet/tx/${tx.hash}`}
+                          <a href={`https://stellar.expert/explorer/testnet/tx/${tx.hash}`}
                           target="_blank"
                           className="text-xs text-gray-400 hover:text-pink-400 transition-colors"
                         >
@@ -110,7 +129,6 @@ export default function MetricsPage() {
             </div>
           )}
         </div>
-
       </div>
     </div>
   );
