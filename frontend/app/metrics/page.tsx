@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 export default function MetricsPage() {
   const [transactions, setTransactions] = useState<any[]>([]);
@@ -24,48 +25,93 @@ export default function MetricsPage() {
   }, []);
 
   return (
-    <div style={{ padding: "2rem", fontFamily: "monospace" }}>
-      <h1>📊 GiftDrop Metrics</h1>
+    <div className="min-h-screen bg-black text-white px-4 py-10">
+      <div className="max-w-6xl mx-auto">
 
-      <div style={{ display: "flex", gap: "2rem", marginBottom: "2rem" }}>
-        <div style={{ background: "#1a1a2e", padding: "1rem", borderRadius: "8px", color: "white" }}>
-          <h3>Total Transactions</h3>
-          <p style={{ fontSize: "2rem" }}>{transactions.length}</p>
+        {/* Header */}
+        <div className="mb-10">
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-pink-400 to-orange-400 bg-clip-text text-transparent">
+            📊 GiftDrop Metrics
+          </h1>
+          <p className="text-gray-400 mt-2">Real-time data from Stellar Testnet · Soroban Smart Contract</p>
         </div>
-        <div style={{ background: "#1a1a2e", padding: "1rem", borderRadius: "8px", color: "white" }}>
-          <h3>Contract</h3>
-          <p style={{ fontSize: "0.7rem" }}>{CONTRACT}</p>
+
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+          <div className="bg-gray-900 border border-pink-500/30 rounded-2xl p-6">
+            <p className="text-gray-400 text-sm mb-1">Total Transactions</p>
+            <p className="text-5xl font-bold text-pink-400">{transactions.length}</p>
+          </div>
+          <div className="bg-gray-900 border border-orange-500/30 rounded-2xl p-6">
+            <p className="text-gray-400 text-sm mb-1">Network</p>
+            <p className="text-2xl font-bold text-orange-400">Stellar Testnet</p>
+          </div>
+          <div className="bg-gray-900 border border-purple-500/30 rounded-2xl p-6">
+            <p className="text-gray-400 text-sm mb-1">Contract</p>
+            <p className="text-xs font-mono text-purple-400 break-all">{CONTRACT.slice(0, 20)}...{CONTRACT.slice(-6)}</p>
+            
+              <a href={`https://stellar.expert/explorer/testnet/contract/${CONTRACT}`}
+              target="_blank"
+              className="text-xs text-gray-500 hover:text-pink-400 mt-1 block"
+            >
+              View on Explorer →
+            </a>
+          </div>
         </div>
+
+        {/* Transactions Table */}
+        <div className="bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden">
+          <div className="px-6 py-4 border-b border-gray-800">
+            <h2 className="text-lg font-semibold text-white">Recent Transactions</h2>
+          </div>
+
+          {loading ? (
+            <div className="p-10 text-center text-gray-400">Loading transactions...</div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="bg-gray-800 text-gray-400 text-sm">
+                    <th className="px-6 py-3 text-left">Transaction Hash</th>
+                    <th className="px-6 py-3 text-left">Date</th>
+                    <th className="px-6 py-3 text-left">Operations</th>
+                    <th className="px-6 py-3 text-left">Explorer</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {transactions.map((tx: any, i: number) => (
+                    <tr key={tx.hash} className={`border-t border-gray-800 hover:bg-gray-800/50 transition-colors ${i % 2 === 0 ? "" : "bg-gray-900/50"}`}>
+                      <td className="px-6 py-4 font-mono text-sm text-pink-400">
+                        {tx.hash.slice(0, 16)}...{tx.hash.slice(-8)}
+                      </td>
+                      <td className="px-6 py-4 text-sm text-gray-300">
+                        {new Date(tx.created_at).toLocaleDateString("en-IN", {
+                          day: "numeric", month: "short", year: "numeric"
+                        })}
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className="bg-orange-500/20 text-orange-400 text-xs px-2 py-1 rounded-full">
+                          {tx.operation_count} ops
+                        </span>
+                      </td>
+                      <td className="px-6 py-4">
+                        
+                         <a href={`https://stellar.expert/explorer/testnet/tx/${tx.hash}`}
+                          target="_blank"
+                          className="text-xs text-gray-400 hover:text-pink-400 transition-colors"
+                        >
+                          View →
+                        </a>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+
       </div>
-
-      {loading ? (
-        <p>Loading transactions...</p>
-      ) : (
-        <table style={{ width: "100%", borderCollapse: "collapse" }}>
-          <thead>
-            <tr style={{ background: "#1a1a2e", color: "white" }}>
-              <th style={{ padding: "0.5rem", textAlign: "left" }}>Hash</th>
-              <th style={{ padding: "0.5rem", textAlign: "left" }}>Date</th>
-              <th style={{ padding: "0.5rem", textAlign: "left" }}>Operations</th>
-            </tr>
-          </thead>
-          <tbody>
-            {transactions.map((tx: any) => (
-              <tr key={tx.hash} style={{ borderBottom: "1px solid #ccc" }}>
-                <td style={{ padding: "0.5rem" }}>
-                  <a href={`https://stellar.expert/explorer/testnet/tx/${tx.hash}`} target="_blank">
-                    {tx.hash.slice(0, 20)}...
-                  </a>
-                </td>
-                <td style={{ padding: "0.5rem" }}>
-                  {new Date(tx.created_at).toLocaleDateString()}
-                </td>
-                <td style={{ padding: "0.5rem" }}>{tx.operation_count}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
     </div>
   );
 }
