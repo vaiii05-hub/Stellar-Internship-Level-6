@@ -13,10 +13,15 @@ export default function MetricsPage() {
     const fetchData = async () => {
       try {
         const res = await fetch(
-          `${HORIZON}/accounts/${DEPLOYER}/transactions?limit=50&order=desc`
-        );
-        const data = await res.json();
-        setTransactions(data._embedded?.records || []);
+        `${HORIZON}/accounts/${DEPLOYER}/operations?limit=200&order=desc`
+      );
+    const data = await res.json();
+    const allOps = data._embedded?.records || [];
+    // Filter only Soroban contract calls
+    const contractOps = allOps.filter(
+      (op: any) => op.type === "invoke_host_function"
+     );
+    setTransactions(contractOps);
       } catch (e) {
         console.error("Failed to fetch", e);
       } finally {
