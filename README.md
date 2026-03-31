@@ -1,121 +1,328 @@
-🎁 GiftDrop
+# 🎁 GiftDrop
 
-Friends secretly drop money for someone's gift — reveals automatically on the special day.
+> **Friends secretly pool money for someone's gift — reveals automatically on the special day.**
 
-GiftDrop is a decentralized group gifting platform built on the Stellar blockchain. Friends pool money for a surprise gift without anyone needing to be trusted with the funds. Contributions are locked in a Soroban smart contract and automatically released to the recipient on the reveal date — or refunded to everyone if the target isn't met.
+GiftDrop is a decentralized group gifting platform built on Stellar, powered by Soroban smart contracts. Friends can silently contribute XLM toward a shared gift, with funds locked on-chain and automatically released to the recipient on the reveal date — or refunded to everyone if the target isn't met.
 
-🔗 Important Links
-ResourceLink🌐 Live Demogiftdrop-five.vercel.app🎬 Demo VideoWatch on Google Drive📊 Metrics Dashboardgiftdrop-five.vercel.app/metrics🐦 Community PostTwitter/X Post📝 User Feedback FormGoogle Form📋 User Responses (32)View Responses🔍 Smart ContractCCKWQP...3YGVJ on Stellar Expert🔒 Security ChecklistSECURITY.md📖 User GuideUSER_GUIDE.md
+---
 
-✨ What Problem Does GiftDrop Solve?
-When a group of friends wants to pool money for a surprise gift, the old way is painful — someone has to collect money manually, be trusted with the funds, and reveal everything at the right time. GiftDrop eliminates this entirely using a Soroban smart contract on Stellar:
+## 🔗 Quick Links
 
-No one person holds the funds
-Contributions are secret until the reveal date
-Funds release automatically — no manual action needed
-Everyone gets refunded automatically if the target isn't met
+| Resource | Link |
+|----------|------|
+| 🌐 Live Demo | https://giftdrop-five.vercel.app |
+| 🎥 Demo Video | [Watch on Google Drive](https://drive.google.com/file/d/1C5Jg7teBDdf74l01LYgONaiqICeRPkbM/view?usp=drive_link) |
+| 📊 Metrics Dashboard | https://giftdrop-five.vercel.app/metrics |
+| 🔍 Smart Contract | [View on Stellar Expert](https://stellar.expert/explorer/testnet/contract/CCKWQPTEXUAV7RK3WKD2T6YS4CLC4QE2KWI2MO4NHVAN4ABFJHA3YGVJ) |
+| 🐦 Community Post | [Twitter/X Post](https://x.com/vaiii05/status/2037897578281644247?s=20) |
+| 📋 User Feedback | [32 Responses — Google Form](https://docs.google.com/forms/d/1f3dUDnkxFBX7WskQIENhjcNaXxdSotH63lhPnMW5EXM/edit#responses) |
+| 🔒 Security Checklist | [View SECURITY.md](./SECURITY.md) |
+| 📖 User Guide | [View USER_GUIDE.md](./USER_GUIDE.md) |
+| 📐 Architecture Docs | [View ARCHITECTURE.md](./ARCHITECTURE.md) |
 
+**Smart Contract Address:**
+```
+CCKWQPTEXUAV7RK3WKD2T6YS4CLC4QE2KWI2MO4NHVAN4ABFJHA3YGVJ
+```
 
-🎯 Real-World Use Cases
+---
 
-Birthday surprise gifts
-Farewell gifts for colleagues
-Festival group gifting
-Office celebration pools
+## 📌 Table of Contents
 
+1. [Problem Statement](#-problem-statement)
+2. [What is GiftDrop?](#-what-is-giftdrop)
+3. [Features](#-features)
+4. [Tech Stack](#-tech-stack)
+5. [Architecture](#-architecture)
+6. [Smart Contract Functions](#-smart-contract-functions)
+7. [Advanced Feature — Fee Sponsorship](#-advanced-feature--fee-sponsorship)
+8. [Metrics Dashboard](#-metrics-dashboard)
+9. [Monitoring](#-monitoring)
+10. [Data Indexing](#-data-indexing)
+11. [Security Checklist](#-security-checklist)
+12. [Community Contribution](#-community-contribution)
+13. [User Feedback & Improvements](#-user-feedback--improvements)
+14. [Future Roadmap](#-future-roadmap)
+15. [Testnet Users (32)](#-testnet-users-32)
+16. [Installation & Setup](#-installation--setup)
+17. [Wallet Setup](#-wallet-setup-for-users)
 
-✨ Features
-FeatureDescription🎁 Create a Gift DropSet target amount, recipient wallet, deadline, and reveal date🔒 Secret ContributionsFriends lock XLM silently into the smart contract👁️ Hidden from RecipientRecipient can't see amount or contributors until reveal date⚡ Auto ReleaseFull amount releases to recipient on reveal date🔄 Auto RefundEveryone gets refunded automatically if target isn't met🤝 No Trust NeededSmart contract handles everything — no manual collection🔍 Explorer LinksEvery transaction visible and verifiable on Stellar Expert⛽ Fee SponsorshipGasless transactions via Stellar fee bump📊 Metrics DashboardLive on-chain metrics added via Metrics tab in navbar🚦 Contribution LimitMax contribution per user enforced to ensure fair participation
+---
 
-📊 Metrics Dashboard
-Live: giftdrop-five.vercel.app/metrics
-The Metrics page is accessible directly from the navbar. It displays real-time on-chain data pulled from the Soroban smart contract via the Stellar Horizon API:
+## 💡 Problem Statement
 
-Total drops created
-Total XLM contributed
-Total active users
-Full on-chain transaction history with Stellar Explorer links
+When a group of friends wants to pool money for a surprise gift, someone always has to be trusted with the funds — manually chasing people, collecting cash, and managing the entire process. This creates friction, trust issues, and often ruins the surprise.
 
-Screenshot
-Show Image
+**GiftDrop eliminates this entirely.** No coordinator needed. No trust required. The smart contract handles everything.
 
-The metrics dashboard shows 19 on-chain contract call transactions, live on Stellar Testnet, with each transaction hash linked to Stellar Expert for full verification.
+---
 
+## 🎁 What is GiftDrop?
 
-📡 Monitoring
-Error monitoring is implemented via a custom logger (frontend/lib/logger.ts). The logger emits structured [GiftDrop INFO] events to the browser console on every app load and transaction, and all transactions are cross-linked with Stellar Explorer for on-chain verification.
-Screenshot
-Show Image
+GiftDrop is a Web3 group gifting app on Stellar Testnet where:
 
-The browser console confirms the custom logger is active, emitting [GiftDrop INFO] GiftDrop app loaded on startup. All transaction events are logged with their Stellar Explorer links.
+- An **organizer** creates a Gift Drop with a target amount, recipient wallet, deadline, and reveal date
+- **Friends** silently contribute XLM — all locked on-chain, invisible to the recipient
+- On the **reveal date**, the full amount automatically releases to the recipient
+- If the **target isn't met** by the deadline, everyone gets a full refund automatically
 
-Monitoring approach:
+No middleman. No trust. Just code.
 
-Custom structured logger: frontend/lib/logger.ts
-All transactions emit log entries with blockchain confirmation links
-Vercel deployment logs capture server-side errors
-Stellar Explorer provides immutable on-chain audit trail
+---
 
+## 🎯 Real-World Use Cases
 
-⚡ Advanced Feature — Fee Sponsorship (Gasless Transactions)
-GiftDrop implements Stellar fee bump transactions so contributors don't need XLM to pay gas fees — the sponsor account covers it on their behalf.
-Implementation: frontend/lib/contract.ts → contributeWithFeeSponsor()
-How it works:
+- 🎂 Birthday surprise gifts
+- 👋 Farewell gifts for colleagues
+- 🎉 Festival group gifting
+- 🏢 Office celebration pools
 
-Contributor signs the inner transaction (no XLM needed for fees)
-Sponsor account wraps it in a fee bump transaction
-Fee bump transaction covers all gas fees
-Contributor's contribution locks on-chain without them needing any extra XLM
+---
 
-This dramatically lowers the barrier to entry for new users on Stellar testnet.
+## ✨ Features
 
-🚦 Advanced Feature — Contribution Limit Per User
-To ensure fair participation across all contributors, GiftDrop enforces a maximum contribution limit per user on each gift drop. This is validated at the smart contract level, preventing any single contributor from dominating a pool.
-Implementation: Enforced in the contribute function within contracts/gift_drop/src/lib.rs
-How it works:
+| Feature | Description |
+|---------|-------------|
+| 🎁 Create a Gift Drop | Set target amount, recipient wallet, deadline, and reveal date |
+| 🤫 Secret Contributions | Friends lock XLM silently into the smart contract |
+| 👁️ Hidden from Recipient | Recipient cannot see amount or contributors until reveal date |
+| ⚡ Auto Release | Full amount releases to recipient on reveal date |
+| 🔄 Auto Refund | Everyone is refunded if target isn't met by deadline |
+| 🔒 No Trust Needed | Smart contract handles everything — no manual collection |
+| 🔍 Explorer Links | Every transaction visible on Stellar Expert |
+| ⛽ Fee Sponsorship | Gasless transactions via Stellar fee bump |
+| 📊 Metrics Dashboard | Live on-chain metrics and full transaction history |
+| 🧭 Metrics in Navbar | Metrics page accessible directly from the navigation bar |
+| 🚦 Contribution Limit | Max contribution per user enforced on-chain to ensure fair participation |
 
-Each gift drop has a configurable per-user contribution cap
-The smart contract checks the user's existing contributions before accepting a new one
-If the limit is exceeded, the transaction is rejected on-chain
-UI surfaces a clear error message to the contributor
+---
 
+## 🛠️ Tech Stack
 
-📈 Data Indexing
-GiftDrop uses the Stellar Horizon API to index and display all on-chain transactions in real time.
-Endpoint:
-https://horizon-testnet.stellar.org/accounts/CCKWQPTEXUAV7RK3WKD2T6YS4CLC4QE2KWI2MO4NHVAN4ABFJHA3YGVJ/transactions
-This endpoint is polled by the Metrics Dashboard to display all contract call transactions, their hashes, dates, and direct links to Stellar Expert. No third-party indexer is required — Horizon provides complete transaction history for the deployed contract.
+| Layer | Technology |
+|-------|------------|
+| Frontend | Next.js + TypeScript |
+| Blockchain | Stellar Testnet |
+| Smart Contract | Soroban (Rust) |
+| Wallet | Freighter Browser Extension |
+| Deployment | Vercel |
+| Stellar SDK | @stellar/stellar-sdk |
+| Monitoring | Custom Logger (`frontend/lib/logger.ts`) + Vercel Logs |
+| Data Indexing | Stellar Horizon API |
 
-🐦 Community Contribution
-GiftDrop was shared with the Stellar community on Twitter/X to spread awareness and gather testnet users.
-Post: twitter.com/vaiii05 — GiftDrop announcement
+---
 
-👥 Testnet Users (32 Verified)
-All 32 users below have tested GiftDrop on Stellar Testnet. Wallet addresses are verifiable on Stellar Expert Testnet.
-#Wallet Address1GCY335MWXOTIDG3JVLER2FSQ3LOFWIYUAZIDTCFAPFTXIOZ64CGLKUB52GBLUMAX4IIPS54AIGD5WXRRAXISG4HLV3BE3YR3SQAD3GZSXRTVJY5GI3GCXY4DOI4DOJOVISJSXCLXL25QF5SWK3JG4BIURXVNTCV2IFWNEHM2J4GCLTDFYMDJZYLDKETB6Z24CCPHGFQS7NRZFJWT4AUXQZ5SF2BJOME7CN5GDJ6VJX3OVJJLIF2J2JRBBDD6PYAZNLAMJIDOLJQSWTUCGDSKEBOEOFP6GARGMJJCMNGYHZPHPS47NANURZVT6EQIW2NDCE6PUFIC3YRCMDRBUDGD7GDGAG234U66W25HS6EN4OYTD7RZWUKGMF5JGH5EWW46UEJTE7YUCJJTU8GAGBXPGIVLCKAYRIAT3HMEXH7J2YMNO4WUGMNZW5DIN4MDXFTD246QHQ9GBJ7S6KJYTGYY6COIUHRAH3INJXUTUJXG4EATKH6M6OE2ZC23WVWD4ZJ10GAHFDM4MHIGKWNZERUH4GC5IMZAFN4IH7PZFJ6RAIKLZ2H356ITDSTGL11GAEXD3KCFE3CBWDGSNQ5A624AMH74B4ONAEEF2QRUWHX6SOTTAVUGKRV12GBTOTIACAKIJACTH62RZQZSZJV6QIYFVPXLSAPNCSB6Q4IYMWEKIH55D13GDZ2MUOTU45WYR4MA6IAR63OB6IU53QYGNYOAJPPJT6VBNQLSOQEZFE214GDNLRW65EWJAP2AJQO5G6F2VSNHFZJJAC3VZ2GCAO452T5ICEJMFUFPL15GD32Y4KNZI7PNFO6FKRWZO7VTCHOXMNVR3EZYLEKJ6QYN4QC3X3JUMN416GAI2EC7HSJ4DCE5QHRFYO5MYA6EV3XJCIW7D66PWUH6VUYL4DWSVGNZ217GCWGFZTDGBDQPTMU3KHRYWNDMW4PZEEHRL2INAX7UIKQB7UW7LMEH73V18GALWWEGHOMU5YODTZBVGPFP2OHCJH5VO3VKWNMW7ZNT6OECINVPQT7SQ19GCRYPAQB3TFLQE727TA3R723QIEPTP5KCMP7OMH4HVXNLCEUKPD4AZJP20GA5JVZLQAMAKQ4FVMV5XAX3EKHPIR2AHMH6FSNCWKTB664A7NMTT3NPH21GBLUQBHZGX5PM2A6FX45L3ONQVL56RNEUJ2BUSYM47A5N3Z37VPJPQ2Y22GBNPQXKGMVPBGJUT2VTKOMWNG2JAGBG7DDOH4XY6CCO55NTTV5UKL3EQ23GBLPM5I4DCKOWWVUPXKF5XONZSD22ZF3GHNDHK6ZB7PSQLIPPINXNENC24GAHHWA4EMBFHGXN42EYODCP24G7YMT7FSMBARQZNMSEIPGVQWBYCDFCY25GBTCO5WSTBEMWTLI7CXNDMFHJV7NTIPIAHTPRRNW3LC5HDNZI6M5JAQCG26GCFQGTT5JEPZDJHFT7AKA4AD5CFLH3LU6TZMSYNTNNS2JO7BKAOAEFZV27GDNKE22S6C3D3PPRGBKHB7SSQEMEZFDEZ223MOYCW73TQGRGI2BPAIG428GDBIJAOFPMGQWDUUQTJ3YFHI44MWHQHPALJQG7ZDA7D5WWEDKJYA4OHA29GAHWHBKOQRUF3NY5BLRAFPEBWMN2RAAB73F3IPSGIRRIRX6CZ3PERSCH30GACPV4RIAZ3VWN7LKZVTPLABOWBGAZUH3PVUJ5OX6PJ4TO3PNVABSR5631GCSX7FR6XYMAPHEJASF2RA3BHQV3PM4DKVW3FTSQV76IIR7GYIGJSW3W32GBTOTIACAKIJACTH62RZQZSZJV6QIYFVPXLSAPNCSB6Q4IYMWEKIH55D
+## 🏗️ Architecture
 
-📋 Smart Contract
-Contract ID: CCKWQPTEXUAV7RK3WKD2T6YS4CLC4QE2KWI2MO4NHVAN4ABFJHA3YGVJ
-View on Stellar Expert →
-FunctionDescriptioncreate_giftCreates a new gift drop on-chaincontributeLocks XLM contribution on-chain (enforces per-user limit)get_giftFetches gift drop detailsget_contributorsReturns all contributors for a dropget_organizer_giftsReturns all drops created by organiserget_contributor_giftsReturns all drops contributed torevealReleases funds to recipient on reveal daterefundRefunds contributors if target not met
-
-🛠️ Tech Stack
-LayerTechnologyFrontendNext.js + TypeScriptBlockchainStellar TestnetSmart ContractSoroban (Rust)WalletFreighterDeploymentVercelStellar SDK@stellar/stellar-sdkData IndexingStellar Horizon APIMonitoringCustom Logger (logger.ts) + Vercel Logs
-
-🏗️ Architecture
+```
 User Browser
-     ↓
+     │
+     ▼
 Next.js Frontend (Vercel)
-     ↓
+     │
+     ▼
 @stellar/stellar-sdk
-     ↓
+     │
+     ▼
 Soroban RPC (soroban-testnet.stellar.org)
-     ↓
+     │
+     ▼
 Soroban Smart Contract (Rust)
-     ↓
+     │
+     ▼
 Stellar Testnet Blockchain
+```
 
-📁 Project Structure
+---
+
+## 📋 Smart Contract Functions
+
+| Function | Description |
+|----------|-------------|
+| `create_gift` | Creates a new gift drop on-chain |
+| `contribute` | Locks XLM contribution on-chain (subject to per-user contribution limit) |
+| `get_gift` | Fetches gift drop details |
+| `get_contributors` | Returns all contributors for a drop |
+| `get_organizer_gifts` | Returns all drops created by organizer |
+| `get_contributor_gifts` | Returns all drops contributed to |
+| `reveal` | Releases funds to recipient on reveal date |
+| `refund` | Refunds contributors if target not met |
+
+---
+
+## ⚡ Advanced Feature — Fee Sponsorship
+
+GiftDrop implements **gasless transactions** using Stellar fee bump transactions. Contributors do not need XLM for gas fees — a sponsor account covers fees on their behalf.
+
+**Implementation file:** `frontend/lib/contract.ts` → `contributeWithFeeSponsor()`
+
+**How it works:**
+
+1. Sponsor account wraps the contributor's inner transaction
+2. Fee bump transaction covers all gas fees
+3. Contributor signs and submits without needing XLM for fees
+
+This dramatically lowers the barrier to entry for new users — they only need XLM for their actual contribution, not for network fees.
+
+---
+
+## 📊 Metrics Dashboard
+
+**Live URL:** https://giftdrop-five.vercel.app/metrics
+
+The Metrics page is accessible directly from the **navigation bar** (added as part of recent improvements). It displays real-time on-chain data pulled from Stellar Testnet:
+
+- Total transactions on the contract
+- Network (Stellar Testnet)
+- Smart contract address with direct Explorer link
+- Full on-chain transaction history with hashes, types, dates, and individual Explorer links
+
+**Screenshot:**
+
+![GiftDrop Metrics Dashboard](./assets/metrics-dashboard.png)
+
+> *19 on-chain transactions as of March 30, 2026 — all verifiable on Stellar Expert.*
+
+---
+
+## 📡 Monitoring
+
+GiftDrop uses a **custom logger** (`frontend/lib/logger.ts`) that logs all key application events with structured `[GiftDrop INFO]` prefixed messages. These are visible in the browser console and captured in Vercel deployment logs.
+
+**Screenshot:**
+
+![GiftDrop Monitoring — Console Logger](./assets/monitoring-console.png)
+
+> *Console showing `[GiftDrop INFO] GiftDrop app loaded` — custom logger fires on every app load, confirming monitoring is active.*
+
+**Monitoring stack:**
+- Custom logger: `frontend/lib/logger.ts`
+- Vercel deployment logs: Available in Vercel dashboard under the GiftDrop project
+- On-chain transaction explorer: [Stellar Expert — Contract Transactions](https://stellar.expert/explorer/testnet/contract/CCKWQPTEXUAV7RK3WKD2T6YS4CLC4QE2KWI2MO4NHVAN4ABFJHA3YGVJ)
+
+---
+
+## 📈 Data Indexing
+
+GiftDrop uses the **Stellar Horizon API** to index and display all on-chain transactions in the Metrics Dashboard.
+
+**Indexing Endpoint:**
+```
+https://horizon-testnet.stellar.org/accounts/CCKWQPTEXUAV7RK3WKD2T6YS4CLC4QE2KWI2MO4NHVAN4ABFJHA3YGVJ/transactions
+```
+
+**What is indexed:**
+- All contract call transactions
+- Transaction hashes and timestamps
+- Contributor and organizer activity
+- Live metrics: total transactions, total XLM contributed, active users
+
+---
+
+## 🔒 Security Checklist
+
+A complete security review has been conducted and documented.
+
+👉 [View Full Security Checklist — SECURITY.md](./SECURITY.md)
+
+Key areas covered:
+- Smart contract access controls
+- Fund locking and release logic
+- Contribution limit enforcement (max per user)
+- Refund protection
+- Frontend input validation
+- Wallet connection safety
+
+---
+
+## 🐦 Community Contribution
+
+GiftDrop was shared with the Stellar developer and user community on Twitter/X to spread awareness and onboard testnet users.
+
+👉 [View Twitter/X Post](https://x.com/vaiii05/status/2037897578281644247?s=20)
+
+---
+
+## 📝 User Feedback & Improvements
+
+Feedback was collected from **32 testnet users** via Google Form.
+
+👉 [View All 32 Responses](https://docs.google.com/forms/d/1f3dUDnkxFBX7WskQIENhjcNaXxdSotH63lhPnMW5EXM/edit#responses)
+
+### Implemented Improvements
+
+| # | User Feedback | Improvement Made |
+|---|---------------|-----------------|
+| 1 | "My old drops were disappearing from the dashboard" | Fixed expired drops — added null safety so expired drops show with an "Expired" status badge |
+| 2 | "I had no way to verify if my contribution went through on blockchain" | Added transaction confirmation — contributors now see a Stellar Explorer link after contributing |
+| 3 | "I didn't know what would happen if the target amount wasn't reached" | Added clear auto-refund message on the drop detail page |
+| 4 | "I didn't know how much was raised compared to the target" | Added a progress bar showing percentage raised on each drop card |
+| 5 | "I wanted to see my contributions separately from drops I created" | Added two separate tabs — My Drops and My Contributions on the dashboard |
+| 6 | "Hard to find the metrics page" | Added Metrics link directly to the navigation bar for easy access |
+| 7 | "Some users were contributing too much, leaving less room for others" | Implemented per-user max contribution limit enforced on-chain |
+
+---
+
+## 🔮 Future Roadmap
+
+Based on feedback from 32 testnet users:
+
+| # | Improvement | Plan |
+|---|-------------|------|
+| 1 | Mobile wallet support | Integrate LOBSTR mobile wallet |
+| 2 | Email notifications | Notify contributors when reveal date approaches |
+| 3 | Multiple token support | Allow USDC contributions alongside XLM |
+| 4 | Social sharing | One-click share drop link to WhatsApp/Telegram |
+| 5 | Gift messages | Allow contributors to add anonymous messages |
+
+---
+
+## 👥 Testnet Users (32)
+
+32 real users have tested GiftDrop on Stellar Testnet. All wallet addresses are verifiable on [Stellar Expert Testnet Explorer](https://stellar.expert/explorer/testnet).
+
+| # | Wallet Address |
+|---|---------------|
+| User 1 | `GCY335MWXOTIDG3JVLER2FSQ3LOFWIYUAZIDTCFAPFTXIOZ64CGLKUB5` |
+| User 2 | `GBLUMAX4IIPS54AIGD5WXRRAXISG4HLV3BE3YR3SQAD3GZSXRTVJY5GI` |
+| User 3 | `GCXY4DOI4DOJOVISJSXCLXL25QF5SWK3JG4BIURXVNTCV2IFWNEHM2J` |
+| User 4 | `GCLTDFYMDJZYLDKETB6Z24CCPHGFQS7NRZFJWT4AUXQZ5SF2BJOME7CN` |
+| User 5 | `GDJ6VJX3OVJJLIF2J2JRBBDD6PYAZNLAMJIDOLJQSWTUCGDSKEBOEOFP` |
+| User 6 | `GARGMJJCMNGYHZPHPS47NANURZVT6EQIW2NDCE6PUFIC3YRCMDRBUDGD` |
+| User 7 | `GDGAG234U66W25HS6EN4OYTD7RZWUKGMF5JGH5EWW46UEJTE7YUCJJTU` |
+| User 8 | `GAGBXPGIVLCKAYRIAT3HMEXH7J2YMNO4WUGMNZW5DIN4MDXFTD246QHQ` |
+| User 9 | `GBJ7S6KJYTGYY6COIUHRAH3INJXUTUJXG4EATKH6M6OE2ZC23WVWD4ZJ` |
+| User 10 | `GAHFDM4MHIGKWNZERUH4GC5IMZAFN4IH7PZFJ6RAIKLZ2H356ITDSTGL` |
+| User 11 | `GAEXD3KCFE3CBWDGSNQ5A624AMH74B4ONAEEF2QRUWHX6SOTTAVUGKRV` |
+| User 12 | `GBTOTIACAKIJACTH62RZQZSZJV6QIYFVPXLSAPNCSB6Q4IYMWEKIH55D` |
+| User 13 | `GDZ2MUOTU45WYR4MA6IAR63OB6IU53QYGNYOAJPPJT6VBNQLSOQEZFE2` |
+| User 14 | `GDNLRW65EWJAP2AJQO5G6F2VSNHFZJJAC3VZ2GCAO452T5ICEJMFUFPL` |
+| User 15 | `GD32Y4KNZI7PNFO6FKRWZO7VTCHOXMNVR3EZYLEKJ6QYN4QC3X3JUMN4` |
+| User 16 | `GAI2EC7HSJ4DCE5QHRFYO5MYA6EV3XJCIW7D66PWUH6VUYL4DWSVGNZ2` |
+| User 17 | `GCWGFZTDGBDQPTMU3KHRYWNDMW4PZEEHRL2INAX7UIKQB7UW7LMEH73V` |
+| User 18 | `GALWWEGHOMU5YODTZBVGPFP2OHCJH5VO3VKWNMW7ZNT6OECINVPQT7SQ` |
+| User 19 | `GCRYPAQB3TFLQE727TA3R723QIEPTP5KCMP7OMH4HVXNLCEUKPD4AZJP` |
+| User 20 | `GA5JVZLQAMAKQ4FVMV5XAX3EKHPIR2AHMH6FSNCWKTB664A7NMTT3NPH` |
+| User 21 | `GBLUQBHZGX5PM2A6FX45L3ONQVL56RNEUJ2BUSYM47A5N3Z37VPJPQ2Y` |
+| User 22 | `GBNPQXKGMVPBGJUT2VTKOMWNG2JAGBG7DDOH4XY6CCO55NTTV5UKL3EQ` |
+| User 23 | `GBLPM5I4DCKOWWVUPXKF5XONZSD22ZF3GHNDHK6ZB7PSQLIPPINXNENC` |
+| User 24 | `GAHHWA4EMBFHGXN42EYODCP24G7YMT7FSMBARQZNMSEIPGVQWBYCDFCY` |
+| User 25 | `GBTCO5WSTBEMWTLI7CXNDMFHJV7NTIPIAHTPRRNW3LC5HDNZI6M5JAQCG` |
+| User 26 | `GCFQGTT5JEPZDJHFT7AKA4AD5CFLH3LU6TZMSYNTNNS2JO7BKAOAEFZV` |
+| User 27 | `GDNKE22S6C3D3PPRGBKHB7SSQEMEZFDEZ223MOYCW73TQGRGI2BPAIG4` |
+| User 28 | `GDBIJAOFPMGQWDUUQTJ3YFHI44MWHQHPALJQG7ZDA7D5WWEDKJYA4OHA` |
+| User 29 | `GAHWHBKOQRUF3NY5BLRAFPEBWMN2RAAB73F3IPSGIRRIRX6CZ3PERSCH` |
+| User 30 | `GACPV4RIAZ3VWN7LKZVTPLABOWBGAZUH3PVUJ5OX6PJ4TO3PNVABSR56` |
+| User 31 | `GCSX7FR6XYMAPHEJASF2RA3BHQV3PM4DKVW3FTSQV76IIR7GYIGJSW3W` |
+| User 32 | `GBTOTIACAKIJACTH62RZQZSZJV6QIYFVPXLSAPNCSB6Q4IYMWEKIH55D` |
+
+> All addresses are verifiable on [Stellar Expert Testnet](https://stellar.expert/explorer/testnet).
+
+---
+
+## 📁 Project Structure
+
+```
 giftdrop/
 ├── contracts/
 │   └── gift_drop/
@@ -125,25 +332,37 @@ giftdrop/
 ├── frontend/
 │   ├── app/
 │   │   ├── create/                 # Create gift drop page
-│   │   ├── dashboard/              # My drops and contributions
-│   │   ├── drop/                   # Individual drop page
+│   │   ├── dashboard/              # My drops and contributions (tabbed)
+│   │   ├── drop/                   # Individual drop detail page
 │   │   ├── reveal/                 # Reveal page
-│   │   └── metrics/                # Metrics dashboard (navbar)
+│   │   └── metrics/                # Metrics dashboard (linked in navbar)
 │   ├── lib/
 │   │   ├── contract.ts             # All blockchain interactions
 │   │   ├── stellar.ts              # Stellar SDK helpers
-│   │   └── logger.ts               # Custom monitoring logger
+│   │   └── logger.ts               # Monitoring and structured logging
 │   └── components/                 # Reusable UI components
-├── screenshots/
-│   ├── metrics-dashboard.png
-│   └── monitoring-console.png
+├── assets/
+│   ├── metrics-dashboard.png       # Metrics dashboard screenshot
+│   └── monitoring-console.png     # Monitoring console screenshot
 ├── SECURITY.md                     # Security checklist
-├── USER_GUIDE.md                   # User guide
-├── README.md
-└── ARCHITECTURE.md
+├── USER_GUIDE.md                   # Full user guide
+├── ARCHITECTURE.md                 # Architecture documentation
+└── README.md
+```
 
-🚀 Installation
-bash# Clone the repository
+---
+
+## 🚀 Installation & Setup
+
+### Prerequisites
+- Node.js 18+
+- [Freighter Wallet](https://freighter.app) browser extension
+- Stellar testnet account with XLM (free via Friendbot)
+
+### Clone & Run
+
+```bash
+# Clone the repository
 git clone https://github.com/vaiii05-hub/Stellar-Internship-Level-6.git
 cd Stellar-Internship-Level-6/frontend
 
@@ -152,41 +371,43 @@ npm install
 
 # Run locally
 npm run dev
-⚙️ Environment Setup
-Create .env.local in the frontend/ folder:
-envNEXT_PUBLIC_GIFT_DROP_CONTRACT=CCKWQPTEXUAV7RK3WKD2T6YS4CLC4QE2KWI2MO4NHVAN4ABFJHA3YGVJ
+```
+
+### Environment Variables
+
+Create a `.env.local` file in the `frontend/` folder:
+
+```env
+NEXT_PUBLIC_GIFT_DROP_CONTRACT=CCKWQPTEXUAV7RK3WKD2T6YS4CLC4QE2KWI2MO4NHVAN4ABFJHA3YGVJ
 NEXT_PUBLIC_DEPLOYER_ADDRESS=your_deployer_address
+```
 
-👛 Wallet Setup for Users
+---
 
-Install the Freighter browser extension
-Create a new wallet
-Switch the network to Testnet
-Get free testnet XLM from Friendbot
-Visit giftdrop-five.vercel.app and connect!
+## 👛 Wallet Setup for Users
 
+1. Install the **[Freighter](https://freighter.app)** browser extension
+2. Create a new wallet and securely save your seed phrase
+3. Switch the network to **Testnet** in Freighter settings
+4. Get free testnet XLM from [Friendbot](https://friendbot.stellar.org)
+5. Visit [https://giftdrop-five.vercel.app](https://giftdrop-five.vercel.app) and connect your wallet
 
-🔄 User Feedback Implementations
-Feedback was collected from 32 testnet users via Google Form. The following improvements were made based on their responses:
-#User FeedbackImprovement Made1"My old drops were disappearing from the dashboard"Fixed expired drops — added null safety so expired drops show with an "Expired" status badge2"I had no way to verify if my contribution actually went through on blockchain"Added transaction confirmation — contributors now see a Stellar Explorer link after contributing3"I didn't know what would happen if the target amount wasn't reached"Added a clear auto-refund message on the drop detail page4"I didn't know how much was raised compared to the target"Added a progress bar showing percentage raised on each drop card5"I wanted to see my contributions separately from drops I created"Added two separate tabs — My Drops and My Contributions — on the dashboard6"I couldn't find the metrics anywhere"Added a Metrics option directly in the navbar for easy access7"Some users were contributing too much and dominating the pool"Added per-user contribution limit enforced at the smart contract level
+---
 
-🔮 Future Improvements
-#ImprovementPlan1Mobile wallet supportIntegrate LOBSTR mobile wallet2Email notificationsNotify contributors when reveal date approaches3Multiple token supportAllow USDC contributions alongside XLM4Social sharingOne-click share drop link to WhatsApp/Telegram5Gift messagesAllow contributors to add anonymous messages
+## 🔍 Verify on Stellar Explorer
 
-🔒 Security
-View Complete Security Checklist →
-Key security properties:
+All GiftDrop transactions are fully transparent and verifiable on-chain:
 
-All funds are custodied exclusively by the smart contract — no human intermediary
-Reveal and refund logic is time-locked and enforced on-chain
-Contributor identities are hidden from the recipient until reveal date
-Per-user contribution limits prevent griefing or fund concentration
+- **Contract**: [`CCKWQP...3YGVJ`](https://stellar.expert/explorer/testnet/contract/CCKWQPTEXUAV7RK3WKD2T6YS4CLC4QE2KWI2MO4NHVAN4ABFJHA3YGVJ)
+- **Network**: Stellar Testnet
+- **Explorer**: [Stellar Expert Testnet](https://stellar.expert/explorer/testnet)
 
+---
 
-📝 User Feedback
-32 responses collected via Google Form from testnet users.
-👉 View All Responses
-👉 Submit New Feedback
+## 📄 License
 
-📄 License
-MIT License — feel free to use and build on this project.
+MIT License — free to use, fork, and build upon.
+
+---
+
+*Built with ❤️ on Stellar by [@vaiii05](https://x.com/vaiii05)*
