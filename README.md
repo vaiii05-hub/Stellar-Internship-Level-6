@@ -15,7 +15,7 @@ GiftDrop is a decentralized group gifting platform built on Stellar, powered by 
 | 📊 Metrics Dashboard | https://giftdrop-five.vercel.app/metrics |
 | 🔍 Smart Contract | [View on Stellar Expert](https://stellar.expert/explorer/testnet/contract/CCKWQPTEXUAV7RK3WKD2T6YS4CLC4QE2KWI2MO4NHVAN4ABFJHA3YGVJ) |
 | 🐦 Community Post | [Twitter/X Post](https://x.com/vaiii05/status/2037897578281644247?s=20) |
-| 📋 User Feedback | [32 Responses — Google Form](https://github.com/vaiii05-hub/Stellar-Internship-Level-6/blob/main/Level%206%20feedback.xlsx.xlsx) |
+| 📋 User Feedback | [View Excel Sheet](Level%206%20feedback.xlsx) |
 | 🔒 Security Checklist | [View SECURITY.md](./SECURITY.md) |
 | 📖 User Guide | [View USER_GUIDE.md](./USER_GUIDE.md) |
 | 📐 Architecture Docs | [View ARCHITECTURE.md](./ARCHITECTURE.md) |
